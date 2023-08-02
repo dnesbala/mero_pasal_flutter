@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mero_pasal/screens/home_screen.dart';
+import 'package:mero_pasal/screens/product_detail_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +18,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: false,
       ),
-      home: HomeScreen(),
+      initialRoute: "/",
+      routes: {
+        "/": (context) => HomeScreen(),
+        "/product-detail": (context) => ProductDetailScreen(),
+      },
     );
   }
 }
