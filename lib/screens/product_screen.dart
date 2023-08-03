@@ -27,6 +27,7 @@ class _ProductScreenState extends State<ProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
         title: Text("Products"),
         centerTitle: true,
@@ -45,12 +46,16 @@ class _ProductScreenState extends State<ProductScreen> {
           return GestureDetector(
             onTap: () {
               // navigate to product detail screen
-              Navigator.pushNamed(context, "/product-detail");
+              Navigator.pushNamed(
+                context,
+                "/product-detail",
+                arguments: product,
+              );
             },
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
               decoration: BoxDecoration(
-                color: Colors.grey.shade200,
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
