@@ -12,6 +12,7 @@ class ProductScreen extends StatefulWidget {
 class _ProductScreenState extends State<ProductScreen> {
   ProductApi productApi = ProductApi();
   List<ProductModel> productList = [];
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -20,7 +21,9 @@ class _ProductScreenState extends State<ProductScreen> {
   }
 
   getProducts() async {
+    isLoading = true;
     productList = await productApi.fetchProducts();
+    isLoading = false;
     setState(() {});
   }
 
@@ -33,61 +36,66 @@ class _ProductScreenState extends State<ProductScreen> {
         centerTitle: true,
         elevation: 0,
       ),
-      body: GridView.builder(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        itemCount: productList.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-        ),
-        itemBuilder: (context, index) {
-          final product = productList[index];
-          return GestureDetector(
-            onTap: () {
-              // navigate to product detail screen
-              Navigator.pushNamed(
-                context,
-                "/product-detail",
-                arguments: product,
-              );
-            },
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : GridView.builder(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              itemCount: productList.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Align(
-                    child: Image.network(
-                      product.image,
-                      height: 100,
-                      width: 100,
+              itemBuilder: (context, index) {
+                final product = productList[index];
+                return GestureDetector(
+                  onTap: () {
+                    // navigate to product detail screen
+                    Navigator.pushNamed(
+                      context,
+                      "/product-detail",
+                      arguments: product,
+                    );
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Align(
+                          child: Hero(
+                            tag: product.id,
+                            child: Image.network(
+                              product.image,
+                              height: 100,
+                              width: 100,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          product.title,
+                          maxLines: 1,
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Text(
+                          "${product.rating.rate} ⭐ (${product.rating.count} ratings)",
+                        ),
+                        Text("Rs. ${product.price}"),
+                      ],
                     ),
                   ),
-                  SizedBox(height: 10),
-                  Text(
-                    product.title,
-                    maxLines: 1,
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Text(
-                    "${product.rating.rate} ⭐ (${product.rating.count} ratings)",
-                  ),
-                  Text("Rs. ${product.price}"),
-                ],
-              ),
+                );
+              },
             ),
-          );
-        },
-      ),
     );
   }
 }

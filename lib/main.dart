@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mero_pasal/screens/home_screen.dart';
 import 'package:mero_pasal/screens/product_detail_screen.dart';
 
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: false,
+        fontFamily: GoogleFonts.rubik().fontFamily,
       ),
       initialRoute: "/",
       routes: {
