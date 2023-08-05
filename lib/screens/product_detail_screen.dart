@@ -13,7 +13,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final product = ModalRoute.of(context)!.settings.arguments as ProductModel;
+    var args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final product = args["product"] as ProductModel;
 
     return Scaffold(
       appBar: AppBar(

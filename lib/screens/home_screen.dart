@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mero_pasal/models/cart_model.dart';
 import 'package:mero_pasal/screens/admin_panel_screen.dart';
 import 'package:mero_pasal/screens/cart_screen.dart';
 import 'package:mero_pasal/screens/product_screen.dart';
@@ -12,14 +13,26 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Widget> pages = [
-    ProductScreen(),
-    SearchScreen(),
-    CartScreen(),
-    AdminPanelScreen(),
-  ];
-
   int selectedIndex = 0;
+  List<CartModel> cartList = [];
+
+  void addToCart(CartModel cart) {
+    cartList.add(cart);
+    setState(() {});
+  }
+
+  List<Widget> pages = [];
+
+  @override
+  void initState() {
+    super.initState();
+    pages = [
+      ProductScreen(addToCart: addToCart),
+      SearchScreen(),
+      CartScreen(),
+      AdminPanelScreen(),
+    ];
+  }
 
   getBody() {
     return pages[selectedIndex];

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+
 import 'package:mero_pasal/api/product_api.dart';
 import 'package:mero_pasal/models/product_model.dart';
 
 class ProductScreen extends StatefulWidget {
-  const ProductScreen({super.key});
+  final Function addToCart;
+  const ProductScreen({
+    Key? key,
+    required this.addToCart,
+  }) : super(key: key);
 
   @override
   State<ProductScreen> createState() => _ProductScreenState();
@@ -39,7 +44,7 @@ class _ProductScreenState extends State<ProductScreen> {
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : GridView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: EdgeInsets.all(10),
               itemCount: productList.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -54,7 +59,10 @@ class _ProductScreenState extends State<ProductScreen> {
                     Navigator.pushNamed(
                       context,
                       "/product-detail",
-                      arguments: product,
+                      arguments: {
+                        "product": product,
+                        "addToCart": widget.addToCart,
+                      },
                     );
                   },
                   child: Container(
