@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mero_pasal/models/product_model.dart';
+
+import '../models/cart_model.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({super.key});
@@ -16,6 +19,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     var args =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final product = args["product"] as ProductModel;
+    final addToCart = args["addToCart"] as void Function(CartModel);
 
     return Scaffold(
       appBar: AppBar(
@@ -88,7 +92,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               height: 50,
               width: double.maxFinite,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  addToCart(CartModel(
+                    id: product.id,
+                    product: product,
+                    quantity: quantity,
+                  ));
+                  Fluttertoast.showToast(
+                    msg: "Item added to cart",
+                    backgroundColor: Colors.indigo,
+                  );
+                },
                 child: Text("Add to Cart"),
               ),
             ),

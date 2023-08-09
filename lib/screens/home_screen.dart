@@ -21,6 +21,11 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {});
   }
 
+  void deleteFromCart(int cartId) {
+    cartList.removeWhere((item) => item.id == cartId);
+    setState(() {});
+  }
+
   List<Widget> pages = [];
 
   @override
@@ -29,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
     pages = [
       ProductScreen(addToCart: addToCart),
       SearchScreen(),
-      CartScreen(),
+      CartScreen(cartList: cartList, deleteItem: deleteFromCart),
       AdminPanelScreen(),
     ];
   }
